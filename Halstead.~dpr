@@ -1,4 +1,4 @@
-program Analyzer;
+program Halstead;
 
 uses
   Forms,
