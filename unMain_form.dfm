@@ -1,11 +1,10 @@
 object frmMain: TfrmMain
-  Left = 346
-  Top = 213
-  Width = 960
-  Height = 485
-  BorderIcons = [biSystemMenu, biMinimize]
+  Left = 256
+  Top = 130
+  Width = 970
+  Height = 630
   Caption = #1052#1077#1090#1088#1080#1082#1072' '#1061#1086#1083#1089#1090#1077#1076#1072
-  Color = clBtnFace
+  Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -13,6 +12,9 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
+  DesignSize = (
+    954
+    592)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -33,6 +35,7 @@ object frmMain: TfrmMain
     Top = 10
     Width = 161
     Height = 16
+    Anchors = [akTop, akRight]
     Caption = #1057#1083#1086#1074#1072#1088#1100' '#1086#1087#1077#1088#1072#1090#1086#1088#1086#1074':'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -47,6 +50,7 @@ object frmMain: TfrmMain
     Top = 10
     Width = 153
     Height = 16
+    Anchors = [akTop, akRight]
     Caption = #1057#1083#1086#1074#1072#1088#1100' '#1086#1087#1077#1088#1072#1085#1076#1086#1074':'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -58,8 +62,9 @@ object frmMain: TfrmMain
   object mmCode: TMemo
     Left = 0
     Top = 35
-    Width = 570
-    Height = 365
+    Width = 545
+    Height = 478
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -74,6 +79,7 @@ object frmMain: TfrmMain
     Top = 35
     Width = 180
     Height = 235
+    Anchors = [akTop, akRight]
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -89,6 +95,7 @@ object frmMain: TfrmMain
     Top = 35
     Width = 180
     Height = 235
+    Anchors = [akTop, akRight]
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -104,6 +111,7 @@ object frmMain: TfrmMain
     Top = 276
     Width = 121
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
     Color = clBtnFace
     EditLabel.Width = 49
@@ -130,6 +138,7 @@ object frmMain: TfrmMain
     Top = 276
     Width = 121
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
     Color = clBtnFace
     EditLabel.Width = 49
@@ -156,6 +165,7 @@ object frmMain: TfrmMain
     Top = 324
     Width = 121
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
     Color = clBtnFace
     EditLabel.Width = 237
@@ -182,6 +192,7 @@ object frmMain: TfrmMain
     Top = 348
     Width = 121
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
     Color = clBtnFace
     EditLabel.Width = 231
@@ -208,6 +219,7 @@ object frmMain: TfrmMain
     Top = 300
     Width = 225
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
     Color = clBtnFace
     EditLabel.Width = 127
@@ -234,6 +246,7 @@ object frmMain: TfrmMain
     Top = 372
     Width = 121
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
     Color = clBtnFace
     EditLabel.Width = 122
@@ -260,6 +273,7 @@ object frmMain: TfrmMain
     Top = 396
     Width = 121
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
     Color = clBtnFace
     EditLabel.Width = 117
@@ -283,11 +297,12 @@ object frmMain: TfrmMain
   end
   object lblHDiff: TLabeledEdit
     Left = 815
-    Top = 420
+    Top = 564
     Width = 121
     Height = 15
+    Anchors = [akTop, akRight]
     BorderStyle = bsNone
-    Color = clBtnFace
+    Color = clSkyBlue
     EditLabel.Width = 138
     EditLabel.Height = 13
     EditLabel.Caption = #1057#1083#1086#1078#1085#1086#1089#1090#1100' '#1087#1088#1086#1075#1088#1072#1084#1084#1099
@@ -306,13 +321,15 @@ object frmMain: TfrmMain
     ParentFont = False
     ReadOnly = True
     TabOrder = 12
+    Visible = False
   end
   object btnRun: TBitBtn
     Left = 136
-    Top = 405
+    Top = 530
     Width = 120
     Height = 35
     Cursor = crHandPoint
+    Anchors = [akLeft, akBottom]
     Caption = #1042#1099#1087#1086#1083#1085#1080#1090#1100
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -325,10 +342,11 @@ object frmMain: TfrmMain
   end
   object btnLoadCode: TBitBtn
     Left = 8
-    Top = 404
+    Top = 530
     Width = 120
     Height = 35
     Cursor = crHandPoint
+    Anchors = [akLeft, akBottom]
     Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100' '#1082#1086#1076
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -338,5 +356,167 @@ object frmMain: TfrmMain
     ParentFont = False
     TabOrder = 0
     OnClick = btnLoadCodeClick
+  end
+  object lblHPLen1: TLabeledEdit
+    Left = 815
+    Top = 444
+    Width = 121
+    Height = 15
+    Anchors = [akTop, akRight]
+    BorderStyle = bsNone
+    Color = clBtnFace
+    EditLabel.Width = 213
+    EditLabel.Height = 13
+    EditLabel.Caption = #1058#1077#1086#1088#1080#1090#1080#1095#1077#1089#1082#1072#1103' '#1076#1083#1080#1085#1085#1072' '#1087#1088#1086#1075#1088#1072#1084#1084#1099':'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -12
+    EditLabel.Font.Name = 'MS Sans Serif'
+    EditLabel.Font.Style = [fsBold]
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LabelPosition = lpLeft
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 13
+  end
+  object lblLevelPrg: TLabeledEdit
+    Left = 815
+    Top = 468
+    Width = 121
+    Height = 15
+    Anchors = [akTop, akRight]
+    BorderStyle = bsNone
+    Color = clBtnFace
+    EditLabel.Width = 128
+    EditLabel.Height = 13
+    EditLabel.Caption = #1059#1088#1086#1074#1077#1085#1100' '#1087#1088#1086#1075#1088#1072#1084#1084#1099':'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -12
+    EditLabel.Font.Name = 'MS Sans Serif'
+    EditLabel.Font.Style = [fsBold]
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LabelPosition = lpLeft
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 14
+  end
+  object lblHPVol1: TLabeledEdit
+    Left = 815
+    Top = 420
+    Width = 121
+    Height = 15
+    Anchors = [akTop, akRight]
+    BorderStyle = bsNone
+    Color = clBtnFace
+    EditLabel.Width = 217
+    EditLabel.Height = 13
+    EditLabel.Caption = #1054#1073#1098#1077#1084' '#1087#1088#1086#1075#1088#1072#1084#1084#1099'('#1087#1086#1090#1077#1085#1094#1080#1072#1083#1100#1085#1099#1081'):'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -12
+    EditLabel.Font.Name = 'MS Sans Serif'
+    EditLabel.Font.Style = [fsBold]
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LabelPosition = lpLeft
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 15
+  end
+  object lblLevelPrg1: TLabeledEdit
+    Left = 815
+    Top = 492
+    Width = 121
+    Height = 15
+    Anchors = [akTop, akRight]
+    BorderStyle = bsNone
+    Color = clBtnFace
+    EditLabel.Width = 194
+    EditLabel.Height = 13
+    EditLabel.Caption = #1059#1088#1086#1074#1077#1085#1100' '#1087#1088#1086#1075#1088#1072#1084#1084#1099'('#1088#1077#1072#1083#1100#1085#1099#1081'):'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -12
+    EditLabel.Font.Name = 'MS Sans Serif'
+    EditLabel.Font.Style = [fsBold]
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LabelPosition = lpLeft
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 16
+  end
+  object lblIntllgnc: TLabeledEdit
+    Left = 815
+    Top = 516
+    Width = 121
+    Height = 15
+    Anchors = [akTop, akRight]
+    BorderStyle = bsNone
+    Color = clBtnFace
+    EditLabel.Width = 252
+    EditLabel.Height = 13
+    EditLabel.Caption = #1048#1085#1090#1077#1083#1077#1082#1090#1091#1072#1083#1100#1085#1086#1077' '#1089#1086#1076#1077#1088#1078#1072#1085#1080#1077' '#1072#1083#1075#1086#1088#1080#1090#1084#1072':'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -12
+    EditLabel.Font.Name = 'MS Sans Serif'
+    EditLabel.Font.Style = [fsBold]
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LabelPosition = lpLeft
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 17
+  end
+  object lblE: TLabeledEdit
+    Left = 815
+    Top = 540
+    Width = 121
+    Height = 15
+    Anchors = [akTop, akRight]
+    BorderStyle = bsNone
+    Color = clBtnFace
+    EditLabel.Width = 156
+    EditLabel.Height = 13
+    EditLabel.Caption = #1048#1085#1090#1077#1083#1077#1082#1090#1091#1072#1083#1100#1085#1099#1077' '#1091#1089#1080#1083#1080#1103':'
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -12
+    EditLabel.Font.Name = 'MS Sans Serif'
+    EditLabel.Font.Style = [fsBold]
+    EditLabel.ParentFont = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -12
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    LabelPosition = lpLeft
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 18
   end
 end

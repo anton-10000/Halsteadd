@@ -24,6 +24,12 @@ type
     lblHDiff: TLabeledEdit;
     btnRun: TBitBtn;
     btnLoadCode: TBitBtn;
+    lblHPLen1: TLabeledEdit;
+    lblLevelPrg: TLabeledEdit;
+    lblHPVol1: TLabeledEdit;
+    lblLevelPrg1: TLabeledEdit;
+    lblIntllgnc: TLabeledEdit;
+    lblE: TLabeledEdit;
     procedure btnLoadCodeClick(Sender: TObject);
     procedure btnRunClick(Sender: TObject);
   private
@@ -186,7 +192,7 @@ procedure CountOperand (var code:AnsiString; var NUnique:Integer; var NAll:Integ
  const
     Letter = ['a'..'z','A'..'Z','0'..'9'];
   var
-    sizeCode,i,N:Integer;
+    sizeCode,i:Integer;
     Operand:String;
 
     List:TStringList;
@@ -194,7 +200,7 @@ begin
   List:=TStringList.Create;
   try
    sizeCode:=Length(code);
-    N:=0;
+
     NAll:=0;
     NUnique:=0;
    for i:=1 to sizeCode do begin
@@ -236,11 +242,12 @@ procedure TfrmMain.btnRunClick(Sender: TObject);
  var
    code:AnsiString;
    NUOprtr, NUOprnd, Noprtr, Noprnd,HPVoc,HPLen:Integer;
-   HPVol,HDiff:Extended;
+   HPVol,HPVol1,HPLen1,LevelPrg,LevelPrg1,HDiff,Intllgnc,E:Extended;
 begin
  //Чищу мемо
   mmOperand.Clear;
   mmOperator.Clear;
+ try
 //Записываю анализируемый код в переменную
   code:=mmCode.Text;
 //Удяляю комменты
@@ -248,12 +255,18 @@ begin
 //Удаляю зарезервированные слова
   ReplaceVermin(code);
 //Выполняю расчёты
-  CountOperator(code,NUOprtr,Noprtr);
-  CountOperand(code,NUOprnd,Noprnd);
-  HPVoc:=NUOprtr + NUOprnd;
-  HPLen:= Noprtr + Noprnd;
-  HPVol:= HPLen* log2(HPVoc);
-  HDiff:= (NUOprtr/2) * (NOprnd / NUOprnd);
+  CountOperator(code,NUOprtr,Noprtr);//операторы (n1,N1)
+  CountOperand(code,NUOprnd,Noprnd);//операнды (n2,N2)
+  HPVoc:=NUOprtr + NUOprnd;//Словарь программы (n)
+  HPLen:= Noprtr + Noprnd;//Длинна программы (N)
+  HPVol:= HPLen* log2(HPVoc);//Объём программы (V)
+  HPVol1:= HPLen* log2(HPLen);// Потенциальный объём программы (V*)
+  HPLen1:= (NUOprtr * log2(NUOprtr)) + (NUOprnd * log2(NUOprnd));// Теоритическая длинна программы (N^)
+  LevelPrg:= HPVol/HPVol1;//Уровень программы (L)
+  LevelPrg1:=(2*NUOprnd) / (NUOprtr*Noprnd) ; //Уровень программы (реальный) (L^)
+  Intllgnc:=LevelPrg*HPVol; // Интелектуальное содержание алгоритма (I)
+  E:=HPLen1* log2(HPVoc/LevelPrg);// Интелектуальные усилия (E)
+//  HDiff:= (NUOprtr/2) * (NOprnd / NUOprnd);//Сложносность программы
 
 //Заношу полученные значение в LabelEdit
   lblNUOprtr.Text:=IntToStr(NUOprtr);
@@ -265,7 +278,16 @@ begin
   lblHPVoc.Text:=IntToStr(HPVoc);
   lblHPLen.Text:=IntToStr(HPLen);
   lblHPVol.Text:=FloatToStrF(HPVol,ffFixed,10,2);
-  lblHDiff.Text:=FloatToStrF(HDiff,ffFixed,10,2);
+  lblHPVol1.Text:=FloatToStrF(HPVol1,ffFixed,10,2);
+  lblHPLen1.Text:=FloatToStrF(HPLen1,ffFixed,10,2);
+  lblLevelPrg.Text:=FloatToStrF(LevelPrg,ffFixed,10,2);
+  lblLevelPrg1.Text:=FloatToStrF(LevelPrg1,ffFixed,10,2);
+  lblIntllgnc.Text:=FloatToStrF(Intllgnc,ffFixed,10,2);
+  lblE.Text:=FloatToStrF(E,ffFixed,10,2);
+//  lblHDiff.Text:=FloatToStrF(HDiff,ffFixed,10,2);
+ except
+
+ end
 end;
 
 end.

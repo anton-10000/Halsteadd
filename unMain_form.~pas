@@ -24,6 +24,12 @@ type
     lblHDiff: TLabeledEdit;
     btnRun: TBitBtn;
     btnLoadCode: TBitBtn;
+    lblHPLen1: TLabeledEdit;
+    lblLevelPrg: TLabeledEdit;
+    lblHPVol1: TLabeledEdit;
+    lblLevelPrg1: TLabeledEdit;
+    lblIntllgnc: TLabeledEdit;
+    lblE: TLabeledEdit;
     procedure btnLoadCodeClick(Sender: TObject);
     procedure btnRunClick(Sender: TObject);
   private
@@ -52,11 +58,10 @@ const
      '%=','+=','–=','<<=','>>=','&=','|=','^=','.*','->*',
      '=','+','-','*','/','%','>','<','~','&','|','^','?',';');
 
-   NOperand = 10;
-   arrOperand: array[1..NOperand] of string = ('bool', 'char', 'double',
-   'float', 'int', 'long', 'short', 'signed', 'usigned', 'void');
-
-    cnstOperator='@';//Символ на который заменяются операторы (для удобства подсчёта)
+{--- НЕ ИСПОЛЬЗУЕТСЯ ---}
+//   NOperand = 10;
+//   arrOperand: array[1..NOperand] of string = ('bool', 'char', 'double',
+//   'float', 'int', 'long', 'short', 'signed', 'usigned', 'void');
 
  var
   txtFile:TextFile;//Переменная для работы с текстовым файлом
@@ -114,7 +119,7 @@ begin
    end;
 end;
 
-//Ф-ция ищет уникальные операторы и выводит их кол-во
+//Ф-ция подсчитывает число уникальных и общее число операторов
 procedure CountOperator(var code:AnsiString; var NUnique:Integer; var NAll:Integer);
  var
    i, N:Integer;
@@ -124,27 +129,30 @@ begin
   NAll:=0;
   NUnique:=0;
 
-  for i:=1 to NOperator do begin//Кручу для каждого коментария
+  for i:=1 to NOperator do begin//Кручу для каждого оператора
     flg:=False;
+//Цикл крутится до тех пор пока не найдёт все вхождения в тексте данного оператора
    while (flg=False) do begin
     if (Pos(arrOperator[i],code)<>0)//Если найден оператор
      then begin
       Inc(N);//Увеличиваю кол-во
-      code:=StringReplace(code,arrOperator[i],' ',[]);
+      code:=StringReplace(code,arrOperator[i],' ',[]);//Заменяю найденный оператор на пустую строку
      end
+//Если оператор на найден заканчиваю цикл
      else flg:=True;
    end;
-   if N >0
+   if N>0 //Если оператор был найден
     then begin
-     frmMain.mmOperator.Lines.Add(arrOperator[i]);
-     Inc(NUnique);
+     frmMain.mmOperator.Lines.Add(arrOperator[i]);//Добавляю его в memo
+     Inc(NUnique);//Увеличиваю уникальный оператор на 1
      NAll:=NAll+N;
      N:=0;
     end;
  end;
 end;
 
-
+//Процедура удаляет зарезервированные слова С++
+//которые НЕ являются операторами и операндыми
 procedure ReplaceVermin(var code:AnsiString);
  const
     Vermin: array[1..2] of string = ('include','iostream');
@@ -156,33 +164,35 @@ begin
    end;
 end;
 
+//Удаляет дубликаты из стринг листа
 procedure RemoveDuplicates(var stringList : TStringList) ;
 var
   buffer: TStringList;
   cnt: Integer;
 begin
-  stringList.Sort;
-  buffer := TStringList.Create;
+  stringList.Sort;//Сортирую
+  buffer := TStringList.Create;//Создаю новый лист
   try
-    buffer.Sorted := True;
-    buffer.Duplicates := dupIgnore;
+    buffer.Sorted := True;//Он сразу будет сортировать данные
+    buffer.Duplicates := dupIgnore;//Дубликаты добавляться не будут
     buffer.BeginUpdate;
     for cnt := 0 to stringList.Count - 1 do
-      buffer.Add(stringList[cnt]) ;
+      buffer.Add(stringList[cnt]) ;//Добавляю в соозданный StrinList элементы СтрингЛиста (который по переменной пришёл)
     buffer.EndUpdate;
+//Присваиваю буферный стринг лист СтрингЛисту (который по переменной пришёл)
+//В результате он будет содержать, информацию без дубликатов
     stringList.Assign(buffer) ;
   finally
-    FreeandNil(buffer) ;
+    FreeandNil(buffer) ;//Уничтожаю объект
   end;
 end;
 
-
-
+//Выполняет подсчёт кол-ва операндов
 procedure CountOperand (var code:AnsiString; var NUnique:Integer; var NAll:Integer);
  const
     Letter = ['a'..'z','A'..'Z','0'..'9'];
   var
-    sizeCode,i,N:Integer;
+    sizeCode,i:Integer;
     Operand:String;
 
     List:TStringList;
@@ -190,13 +200,13 @@ begin
   List:=TStringList.Create;
   try
    sizeCode:=Length(code);
-    N:=0;
+
     NAll:=0;
     NUnique:=0;
    for i:=1 to sizeCode do begin
      if (code[i] in Letter)
      then Operand:=Operand+code[i];
-
+//Нашёл слово, т.к операторы из текста уже удаленны, то любое встреченное слово,буква, цифра - это операнд
     if (Length(Operand)<>0) and ((code[i]=' ') or (code[i]=''))
      then begin
        List.Add(Operand);
@@ -208,6 +218,7 @@ begin
     NUnique:=List.Count;
      frmMain.mmOperand.Lines:=List;
    finally
+    List.Free;
    end;
 end;
 
@@ -231,30 +242,48 @@ procedure TfrmMain.btnRunClick(Sender: TObject);
  var
    code:AnsiString;
    NUOprtr, NUOprnd, Noprtr, Noprnd,HPVoc,HPLen:Integer;
-   HPVol,HDiff:Extended;
+   HPVol,HPVol1,HPLen1,LevelPrg,LevelPrg1,HDiff,Intllgnc,E:Extended;
 begin
+ //Чищу мемо
   mmOperand.Clear;
   mmOperator.Clear;
+//Записываю анализируемый код в переменную
   code:=mmCode.Text;
+//Удяляю комменты
   DeleteComment(code);
+//Удаляю зарезервированные слова
   ReplaceVermin(code);
-  CountOperator(code,NUOprtr,Noprtr);
-  CountOperand(code,NUOprnd,Noprnd);
-  HPVoc:=NUOprtr + NUOprnd;
-  HPLen:= Noprtr + Noprnd;
-  HPVol:= HPLen* log2(HPVoc);
-  HDiff:= (NUOprtr/2) * (NOprnd / NUOprnd);
+//Выполняю расчёты
+  CountOperator(code,NUOprtr,Noprtr);//операторы (n1,N1)
+  CountOperand(code,NUOprnd,Noprnd);//операнды (n2,N2)
+  HPVoc:=NUOprtr + NUOprnd;//Словарь программы (n)
+  HPLen:= Noprtr + Noprnd;//Длинна программы (N)
+  HPVol:= HPLen* log2(HPVoc);//Объём программы (V)
+  HPVol1:= HPLen* log2(HPLen);// Потенциальный объём программы (V*)
+  HPLen1:= (NUOprtr * log2(NUOprtr)) + (NUOprnd * log2(NUOprnd));// Теоритическая длинна программы (N^)
+  LevelPrg:= HPVol1/HPVol;//Уровень программы (L)
+  LevelPrg1:=(2*NUOprnd) / (NUOprtr*Noprnd) ; //Уровень программы (реальный) (L^)
+  Intllgnc:=LevelPrg*HPVol; // Интелектуальное содержание алгоритма (I)
+  E:=HPLen1* log2(HPVoc/LevelPrg);// Интелектуальные усилия (E)
+//  HDiff:= (NUOprtr/2) * (NOprnd / NUOprnd);//Сложносность программы
 
-
+//Заношу полученные значение в LabelEdit
   lblNUOprtr.Text:=IntToStr(NUOprtr);
   lblNoprtr.Text:=IntToStr(Noprtr);
 
   lblNUOprnd.Text:=IntToStr(NUOprnd);
   lblNoprnd.Text:=IntToStr(Noprnd);
+
   lblHPVoc.Text:=IntToStr(HPVoc);
   lblHPLen.Text:=IntToStr(HPLen);
   lblHPVol.Text:=FloatToStrF(HPVol,ffFixed,10,2);
-  lblHDiff.Text:=FloatToStrF(HDiff,ffFixed,10,2);
+  lblHPVol1.Text:=FloatToStrF(HPVol1,ffFixed,10,2);
+  lblHPLen1.Text:=FloatToStrF(HPLen1,ffFixed,10,2);
+  lblLevelPrg.Text:=FloatToStrF(LevelPrg,ffFixed,10,2);
+  lblLevelPrg1.Text:=FloatToStrF(LevelPrg1,ffFixed,10,2);
+  lblIntllgnc.Text:=FloatToStrF(Intllgnc,ffFixed,10,2);
+  lblE.Text:=FloatToStrF(E,ffFixed,10,2);
+//  lblHDiff.Text:=FloatToStrF(HDiff,ffFixed,10,2);
 end;
 
 end.
